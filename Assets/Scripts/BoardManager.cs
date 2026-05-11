@@ -3,6 +3,12 @@ using UnityEngine.Tilemaps;
 
 public class BoardManager : MonoBehaviour
 {
+    public class CellData
+    {
+        public bool Passable; // Whether the cell can be walked on
+    }
+
+    private CellData[,] m_BoardData; // 2D array to store cell data for pathfinding
     private Tilemap m_Tilemap;
 
     public int Width;
@@ -13,20 +19,24 @@ public class BoardManager : MonoBehaviour
     void Start()
     {
         m_Tilemap = GetComponentInChildren<Tilemap>();
+        m_BoardData = new CellData[Width, Height];
 
         for (int y=0; y<Height; ++y)
         {
             for (int x=0; x<Width; ++x)
             {
                 Tile tile;
-                
+                m_BoardData[x, y] = new CellData(); // Initialize cell data
+
                 if (x==0 || y==0 || x==Width-1 || y==Height-1)
                 {
                     tile = WallTiles[Random.Range(0, WallTiles.Length)]; // Set border tiles
+                    m_BoardData[x, y].Passable = false; // Mark border cells as not passable
                 }
                 else
                 {
-                    tile = GroundTiles[Random.Range(0, GroundTiles.Length)];  // Set random ground tiles for inner area
+                    tile = GroundTiles[Random.Range(0, GroundTiles.Length)];
+                    m_BoardData[x, y].Passable = true; // Mark inner cells as passable
                 }
                 m_Tilemap.SetTile(new Vector3Int(x, y, 0), tile);
             }
