@@ -444,6 +444,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8dbea5fb5d89a91489671b9d4dc373ef, type: 2}
   FoodPrefabs:
   - {fileID: 3017579540682859738, guid: 5a609acf04b354b42be794eeb373f9fd, type: 3}
+  - {fileID: 8108340416806139615, guid: fe4360e7cc427dc4884a2debc9e100a2, type: 3}
+  - {fileID: 5856582830295647354, guid: 25929a92b974f094685ed72fdb7abc91, type: 3}
+  - {fileID: 3606621012672522160, guid: 2bd266ffc6ce7d2438fbaee0beeacb90, type: 3}
 --- !u!156049354 &1219316175
 Grid:
   m_ObjectHideFlags: 0
