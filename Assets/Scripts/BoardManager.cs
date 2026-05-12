@@ -8,17 +8,28 @@ public class BoardManager : MonoBehaviour
         public bool Passable; // Whether the cell can be walked on
     }
 
+    public Vector3 CellToWorld(Vector2Int cellIndex)
+    {
+        return m_Grid.GetCellCenterWorld((Vector3Int)cellIndex);
+    }
+
     private CellData[,] m_BoardData; // 2D array to store cell data for pathfinding
     private Tilemap m_Tilemap;
+    private Grid m_Grid;
+    
 
     public int Width;
     public int Height;
     public Tile[] GroundTiles; // to store ground tile sprites
     public Tile[] WallTiles; // to store wall/border tile sprites
+    public PlayerController Player; // Reference to the player controller
+
 // Start is called before the first frame update
     void Start()
     {
         m_Tilemap = GetComponentInChildren<Tilemap>();
+        m_Grid = GetComponentInChildren<Grid>();
+        
         m_BoardData = new CellData[Width, Height];
 
         for (int y=0; y<Height; ++y)
@@ -41,6 +52,8 @@ public class BoardManager : MonoBehaviour
                 m_Tilemap.SetTile(new Vector3Int(x, y, 0), tile);
             }
         }
+
+        Player.Spawn(this, new Vector2Int(1, 1)); // Spawn player at (1,1)
     }
 
 }
