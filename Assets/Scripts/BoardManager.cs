@@ -1,28 +1,36 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Collections.Generic;
 
 public class BoardManager : MonoBehaviour
 {
    public class CellData
    {
+    
        public bool Passable;
+       public GameObject ContainedObject;
    }
 
    private CellData[,] m_BoardData;
    private Tilemap m_Tilemap;
    private Grid m_Grid;
+
+   private List<Vector2Int> m_EmptyCellsList = new List<Vector2Int>();
   
    public int Width;
    public int Height;
    public Tile[] GroundTiles;
    public Tile[] WallTiles;
-  
+
+   public GameObject[] FoodPrefabs;
+
    public void Init()
    {
        m_Tilemap = GetComponentInChildren<Tilemap>();
        m_Grid = GetComponentInChildren<Grid>();
       
        m_BoardData = new CellData[Width, Height];
+       m_EmptyCellsList = new List<Vector2Int>();
 
        for (int y = 0; y < Height; ++y)
        {
@@ -40,11 +48,15 @@ public class BoardManager : MonoBehaviour
                {
                    tile = GroundTiles[Random.Range(0, GroundTiles.Length)];
                    m_BoardData[x, y].Passable = true;
+                   // Add to empty cells list for potential food spawning
+                    m_EmptyCellsList.Add(new Vector2Int(x, y));
                }
 
                m_Tilemap.SetTile(new Vector3Int(x, y, 0), tile);
            }
        }
+       m_EmptyCellsList.Remove(new Vector2Int(1, 1)); // Remove the player's starting position from the empty cells list
+         GenerateFood();
    }
 
    public Vector3 CellToWorld(Vector2Int cellIndex)
@@ -61,5 +73,26 @@ public class BoardManager : MonoBehaviour
        }
 
        return m_BoardData[cellIndex.x, cellIndex.y];
+   }
+
+   void GenerateFood()
+   {
+       int foodCount = 5;
+   for (int i = 0; i < foodCount; ++i)
+   {
+       int randomIndex = Random.Range(0, m_EmptyCellsList.Count);
+       Vector2Int coord = m_EmptyCellsList[randomIndex];
+      
+       m_EmptyCellsList.RemoveAt(randomIndex);
+       CellData data = m_BoardData[coord.x, coord.y];
+
+       if (FoodPrefabs == null || FoodPrefabs.Length == 0)
+           return;
+
+       GameObject prefab = FoodPrefabs[Random.Range(0, FoodPrefabs.Length)];
+       GameObject newFood = Instantiate(prefab);
+       newFood.transform.position = CellToWorld(coord);
+       data.ContainedObject = newFood;
+   }
    }
 }
