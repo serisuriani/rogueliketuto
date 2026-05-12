@@ -51,7 +51,7 @@ private void Update()
 
         if (cellData != null && cellData.Passable)
         {
-            
+            GameManager.Instance.TurnManager.Tick(); // Advance the turn
             MoveTo(newCellTarget);
         }
    }
