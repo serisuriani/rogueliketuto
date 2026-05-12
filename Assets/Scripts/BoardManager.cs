@@ -13,6 +13,17 @@ public class BoardManager : MonoBehaviour
         return m_Grid.GetCellCenterWorld((Vector3Int)cellIndex);
     }
 
+    public CellData GetCellData(Vector2Int cellIndex)
+{
+   if (cellIndex.x < 0 || cellIndex.x >= Width
+       || cellIndex.y < 0 || cellIndex.y >= Height)
+   {
+       return null;
+   }
+
+   return m_BoardData[cellIndex.x, cellIndex.y];
+}
+
     private CellData[,] m_BoardData; // 2D array to store cell data for pathfinding
     private Tilemap m_Tilemap;
     private Grid m_Grid;
@@ -29,7 +40,7 @@ public class BoardManager : MonoBehaviour
     {
         m_Tilemap = GetComponentInChildren<Tilemap>();
         m_Grid = GetComponentInChildren<Grid>();
-        
+
         m_BoardData = new CellData[Width, Height];
 
         for (int y=0; y<Height; ++y)
