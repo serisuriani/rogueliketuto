@@ -25,6 +25,12 @@ public class GameManager : MonoBehaviour
         Instance = this; // Set the singleton instance
     }
 
+    public void ChangeFood(int amount)
+    {
+        m_FoodAmount += amount;
+        m_FoodLabel.text = "Food: " + m_FoodAmount; // Update the food label text
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -43,5 +49,6 @@ public class GameManager : MonoBehaviour
         m_FoodAmount -= 1; // Example of turn-based logic: decrease food amount each turn
         Debug.Log("Food Amount: " + m_FoodAmount);
         m_FoodLabel.text = "Food: " + m_FoodAmount; // Update the food label text
+        ChangeFood(-1); // Decrease food by 1 each turn
     }
 }

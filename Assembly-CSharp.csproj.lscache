@@ -52,6 +52,8 @@ TemporaryDependencyNodeTargetIdentifier=netstandard2.1
 [sourceFiles]
 Assets/Scripts/
  BoardManager.cs
+ CellObject.cs
+ FoodObject.cs
  GameManager.cs
  PlayerController.cs
  TurnManager.cs

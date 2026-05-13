@@ -8,7 +8,7 @@ public class BoardManager : MonoBehaviour
    {
     
        public bool Passable;
-       public GameObject ContainedObject;
+       public CellObject ContainedObject;
    }
 
    private CellData[,] m_BoardData;
@@ -22,7 +22,7 @@ public class BoardManager : MonoBehaviour
    public Tile[] GroundTiles;
    public Tile[] WallTiles;
 
-   public GameObject[] FoodPrefabs;
+   public FoodObject[] FoodPrefabs;
 
    public void Init()
    {
@@ -55,7 +55,7 @@ public class BoardManager : MonoBehaviour
                m_Tilemap.SetTile(new Vector3Int(x, y, 0), tile);
            }
        }
-       m_EmptyCellsList.Remove(new Vector2Int(1, 1)); // Remove the player's starting position from the empty cells list
+       m_EmptyCellsList.Remove(new Vector2Int(1, 1));// Remove the player's starting position from the empty cells list
          GenerateFood();
    }
 
@@ -89,10 +89,15 @@ public class BoardManager : MonoBehaviour
        if (FoodPrefabs == null || FoodPrefabs.Length == 0)
            return;
 
-       GameObject prefab = FoodPrefabs[Random.Range(0, FoodPrefabs.Length)];
-       GameObject newFood = Instantiate(prefab);
+       FoodObject prefab = FoodPrefabs[Random.Range(0, FoodPrefabs.Length)];
+       if (prefab == null)
+           return;
+       
+       FoodObject newFood = Instantiate(prefab);
        newFood.transform.position = CellToWorld(coord);
        data.ContainedObject = newFood;
+       
+       Debug.Log($"Food spawned at {coord} (world: {CellToWorld(coord)})");
    }
    }
 }
