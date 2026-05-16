@@ -57,6 +57,7 @@ Assets/Scripts/
  GameManager.cs
  PlayerController.cs
  TurnManager.cs
+ WallObject.cs
 Temp/obj/Assembly-CSharp/.NETStandard,Version=v2.1.AssemblyAttributes.cs
 
 [metadataReferences]

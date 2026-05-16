@@ -52,15 +52,19 @@ private void Update()
         if (cellData != null && cellData.Passable)
         {
             GameManager.Instance.TurnManager.Tick(); // Advance the turn
-            MoveTo(newCellTarget);
-
-            if (cellData.ContainedObject != null)
+            if (cellData.ContainedObject == null)
             {
-                cellData.ContainedObject.PlayerEntered(); // Notify the object that the player has entered its cell
-                
+                MoveTo(newCellTarget);
             }
+            else if (cellData.ContainedObject.PlayerWantsToEnter())
+            {
+                MoveTo(newCellTarget);
+                cellData.ContainedObject.PlayerEntered();
+            
+        }
+
         }
    }
 }
-
 }
+
